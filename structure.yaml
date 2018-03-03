@@ -1,0 +1,21 @@
+--- # Structural yaml example to install HTTPD on Ubuntu
+- hosts: ubuntu
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+  vars:
+    username: myuser
+  tasks:
+  - name: Install HTTPD server on ubuntu instances
+    apt: 
+      name: apache2
+      state: latest
+    notify:
+    - startservice
+  handlers:
+  - name: startservice
+    service:
+      name: apache2
+      state: restarted
